@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 3.14)
 project(students)
-add_subdirectory(studentspar)
-add_subdirectory(studentsseq)
+add_subdirectory(statspar)
+add_subdirectory(statsseq)

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(studentspar C)
+project(statsseq C)
 
 set(CMAKE_C_STANDARD 99)
 
@@ -12,5 +12,5 @@ IF(USE_OpenMP)
     ENDIF()
 ENDIF()
 
-add_executable(studentspar studentspar.c)
-#target_link_libraries(studentspar m)
+add_executable(statsseq statsseq.c)
+target_link_libraries(statsseq m)
