@@ -242,10 +242,10 @@ int main(int argc, char* argv[])
 
     double *coluna, mediana, media, media_har, moda, variancia, dp, cv; //Define a coluna (forma linear), vetores de medidas estatísticas
 
-    if (argc < 2) { //se os argumentos de linha de comando não estiverem corretos
+    /*if (argc < 2) { //se os argumentos de linha de comando não estiverem corretos
         printf("This program (called %s) must be executed by its master, peasant.\n", argv[0]);
         exit(0);
-    }
+    }*/
 
     lin = atoi(argv[1]);
 

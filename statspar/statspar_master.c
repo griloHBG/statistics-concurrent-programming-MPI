@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
     char program_name[50];
     char** slaves_argv;
     int matrizColumnSize;
+    char slave_program_name[20] = "statspar_slave";
 
     MPI_Comm    inter_comm;
 
@@ -94,8 +95,9 @@ int main(int argc, char* argv[])
     col = 4;
 #endif
 
-    slaves_argv = (char**) malloc(1 * sizeof(char*));
+    slaves_argv = (char**) malloc(2 * sizeof(char*));
     slaves_argv[0] = (char*) malloc(10 * sizeof(char));
+    slaves_argv[1] = NULL;
 
 #ifdef VERBOSE
     printf("creating slaves argv!\n");
@@ -105,10 +107,20 @@ int main(int argc, char* argv[])
     sprintf(slaves_argv[0], "%d", lin);
 
 #ifdef VERBOSE
+    printf("argv for the slaves:\n");
+    for (i = 0; i < 1; i++)
+    {
+        printf("\t%s\n", slaves_argv[i]);
+    }
+#endif
+
+#ifdef VERBOSE
     printf("spawning %d slaves!\n", col);
 #endif
 
-    if(MPI_Comm_spawn("statspar_slave", slaves_argv, col, MPI_INFO_NULL, root, MPI_COMM_WORLD, &inter_comm, errcodes) != MPI_SUCCESS)
+
+
+    if(MPI_Comm_spawn(slave_program_name, slaves_argv, col, MPI_INFO_NULL, root, MPI_COMM_WORLD, &inter_comm, errcodes) != MPI_SUCCESS)
         for(i = 0; i< 10; i++)
             printf("%d | ",errcodes[i]);
 
@@ -153,7 +165,7 @@ int main(int argc, char* argv[])
     MPI_Type_create_resized(doubleColunaMatriz_dt, 0, 1 * sizeof(double), &doubleColunaMatriz_dt);
     MPI_Type_commit(&doubleColunaMatriz_dt);
 
-    MPI_Scatter(matriz, 1, doubleColunaMatriz_dt, matriz, 6, MPI_DOUBLE, MPI_ROOT, inter_comm);
+    MPI_Scatter(matriz, 1, doubleColunaMatriz_dt, matriz, 1, doubleColunaMatriz_dt, MPI_ROOT, inter_comm);
 
 #pragma omp parallel default(none) shared(col, mediana, media, media_har, moda, variancia, dp, cv)
     {
@@ -236,7 +248,6 @@ int main(int argc, char* argv[])
     free(dp); //Desaloca vetor de desvio padrão
     free(cv); //Desaloca vetor de coeficiente de variação
     free(slaves_argv[0]);
-    free(slaves_argv[1]);
     free(slaves_argv);
 
     MPI_Finalize();
