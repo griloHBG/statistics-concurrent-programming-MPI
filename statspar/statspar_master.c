@@ -82,7 +82,12 @@ int main(int argc, char* argv[])
         exit(0);
     }
 
+    char processor_name[MPI_MAX_PROCESSOR_NAME];
+    int processor_name_len;
 
+    MPI_Get_processor_name(processor_name, &processor_name_len);
+
+    printf("-Running on %s, rank %2d-\n", processor_name, my_rank);
 
 #ifndef EXEMPLO
     int seed;

@@ -232,6 +232,13 @@ int main(int argc, char* argv[])
 
     MPI_Comm_get_parent(&inter_comm);
 
+    char processor_name[MPI_MAX_PROCESSOR_NAME];
+    int processor_name_len;
+
+    MPI_Get_processor_name(processor_name, &processor_name_len);
+
+    printf("-Running on %s, rank %2d-\n", processor_name, my_rank);
+
     //printf("[slv%d] is in!\n", my_rank);
 
     char program_name[50];
